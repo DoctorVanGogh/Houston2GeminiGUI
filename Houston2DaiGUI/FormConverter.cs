@@ -153,13 +153,13 @@ namespace Houston2DaiGUI
                 if (attr == null) continue;
 
                 if (attr.Value.IsDigitsOnly())
-                    points[strKey] = attr.Value.ToInt32();
+                    points[strKey] = attr.Value.ToDecimal();
                 else
                     points[strKey] = "\"" + attr.Value + "\"";
             }
 
             // Return null if LTRB all equal 0
-            if (points.Values.All(x => x is Int32 && (Int32)x == 0)) return null;
+            if (points.Values.All(x => x is Decimal && (Decimal)x == 0m)) return null;
 
             // Set AnchorPoint to "named" variant if available 
             // e.g. { 0.5, 0.5, 0.5, 0.5 } = "CENTER"

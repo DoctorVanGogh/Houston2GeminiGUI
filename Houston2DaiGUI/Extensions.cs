@@ -16,6 +16,13 @@ namespace Houston2DaiGUI
             return ret;
         }
 
+        public static decimal ToDecimal(this string val)
+        {
+            decimal ret;
+            decimal.TryParse(val, out ret);
+            return ret;
+        }
+
         public static bool Between(this int val, int min, int max)
         {
             return val >= min && val <= max;
