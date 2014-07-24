@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -67,7 +68,7 @@ namespace Houston2DaiGUI
                 if (!attrs.Any(x => x.Name.ToString().EndsWith(anchorType))) continue;
                 var anchor = GetAnchorTable(attrs, anchorType);
                 if (anchor == null) continue;
-                Output.AppendFormat("{0}{1} = {2},\n", IndentString, anchorType + "s", anchor);
+                Output.AppendFormat(CultureInfo.InvariantCulture, "{0}{1} = {2},\n", IndentString, anchorType + "s", anchor);
             }
 
             // parse the element's attributes
@@ -115,7 +116,7 @@ namespace Houston2DaiGUI
                 if (!element.Attributes().Any(x => x.Name.ToString().EndsWith(anchorType))) continue;
                 var anchor = GetAnchorTable(element.Attributes(), anchorType);
                 if (anchor == null) continue;
-                Output.AppendFormat("{0} = {1}, ", anchorType + "s", anchor);
+                Output.AppendFormat(CultureInfo.InvariantCulture, "{0} = {1}, ", anchorType + "s", anchor);
             }
 
             foreach (var attr in element.Attributes().Where(x => !x.Name.IsHoustonAnchorAttribute() && !AttributeHasDefaultValue(x)))
@@ -163,7 +164,7 @@ namespace Houston2DaiGUI
 
             // Set AnchorPoint to "named" variant if available 
             // e.g. { 0.5, 0.5, 0.5, 0.5 } = "CENTER"
-            var strRet = string.Format("{{ {0}, {1}, {2}, {3} }}", points["L"], points["T"], points["R"], points["B"]);
+            var strRet = string.Format(CultureInfo.InvariantCulture, "{{ {0}, {1}, {2}, {3} }}", points["L"], points["T"], points["R"], points["B"]);
             if (strType == "AnchorPoint" && TranslateAnchorPoints && AnchorPointLookup.ContainsKey(strRet))
             {
                 strRet = "\"" + AnchorPointLookup[strRet] + "\"";
@@ -176,7 +177,7 @@ namespace Houston2DaiGUI
         {
             var strEventName = xml.Attributes().First(x => x.Name == "Name").Value;
             var strEventFunction = xml.Attributes().First(x => x.Name == "Function").Value;
-            Output.AppendFormat("{0}{1} = \"{2}\",\n", IndentString, strEventName, strEventFunction);
+            Output.AppendFormat(CultureInfo.InvariantCulture, "{0}{1} = \"{2}\",\n", IndentString, strEventName, strEventFunction);
         }
 
         #region AnchorPoint Lookup Table

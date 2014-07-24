@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,14 +13,14 @@ namespace Houston2DaiGUI
         public static int ToInt32(this string val)
         {
             Int32 ret;
-            Int32.TryParse(val, out ret);
+            Int32.TryParse(val, NumberStyles.Number, CultureInfo.InvariantCulture, out ret);
             return ret;
         }
 
         public static decimal ToDecimal(this string val)
         {
             decimal ret;
-            decimal.TryParse(val, out ret);
+            decimal.TryParse(val, NumberStyles.Number, CultureInfo.InvariantCulture, out ret);
             return ret;
         }
 
@@ -30,7 +31,11 @@ namespace Houston2DaiGUI
 
         public static bool IsDigitsOnly(this string val)
         {
-            return val.Length > 0 && val.All(c => (c >= '0' && c <= '9') || c == '-' || c == '.');
+            if (val == null)
+                return false;
+
+            decimal number;
+            return decimal.TryParse(val, NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out number);
         }
 
         public static bool IsHoustonAnchorAttribute(this XName val)
